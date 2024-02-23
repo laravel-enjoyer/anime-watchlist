@@ -9,7 +9,7 @@ use JsonMachine\Exception\InvalidArgumentException;
 use JsonMachine\Items;
 use JsonMachine\JsonDecoder\ExtJsonDecoder;
 
-class AnimeSeeder extends Seeder
+class AnimeJsonSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -37,8 +37,8 @@ class AnimeSeeder extends Seeder
             $anime->thumbnail = $animeData['thumbnail'];
             $anime->save();
 
-            // Attach tags to anime
-            $anime->tags()->createMany(array_map(
+            // Attach genres to anime
+            $anime->genres()->createMany(array_map(
                 fn($value) => ['name' => $value],
                 $animeData['tags']
             ));

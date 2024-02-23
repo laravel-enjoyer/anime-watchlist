@@ -14,14 +14,20 @@ return new class extends Migration
     {
         Schema::create('anime', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('mal_id')->nullable(false)->unique();
             $table->string('title')->nullable(false)->index();
-            $table->enum('type', ['TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL', 'UNKNOWN'])->nullable(false);
-            $table->integer('episodes')->nullable(false);
+            $table->enum('type', ['TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL', 'MUSIC', 'UNKNOWN'])->nullable(false);
+            $table->integer('episodes')->nullable();
+            $table->text('description')->nullable();
+            $table->float('score')->nullable();
+            $table->integer('rank')->nullable();
             $table->enum('status', ['FINISHED', 'ONGOING', 'UPCOMING', 'UNKNOWN'])->nullable(false);
             $table->enum('season', ['SPRING', 'SUMMER', 'FALL', 'WINTER', 'UNKNOWN'])->nullable(false);
             $table->integer('year')->nullable();
             $table->string('picture')->nullable(false);
             $table->string('thumbnail')->nullable(false);
+            $table->date('aired_from')->nullable();
+            $table->date('aired_to')->nullable();
             $table->timestamps();
         });
     }
