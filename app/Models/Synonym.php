@@ -10,6 +10,10 @@ class Synonym extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function anime(): BelongsTo
     {
         return $this->belongsTo(Anime::class);

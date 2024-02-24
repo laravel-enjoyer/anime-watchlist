@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         //* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
-        $schedule->command('anime:update')->everyMinute();
+        $schedule->command('anime:update')->dailyAt('06:00');
     }
 
     /**

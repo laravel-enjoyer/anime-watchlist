@@ -14,4 +14,6 @@ interface IAnimeService
     public function getGenreList(): array;
 
     public function convertToModelData(array $animeData): array;
+
+    public function getAnimeDataByRemoteID(mixed $remoteID): array;
 }

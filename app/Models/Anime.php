@@ -34,6 +34,7 @@ class Anime extends Model
 
     protected $table = 'anime';
     protected $fillable = [
+        'mal_id',
         'title',
         'type',
         'episodes',
@@ -91,6 +92,28 @@ class Anime extends Model
             self::SEASON_WINTER,
             self::SEASON_UNKNOWN
         ];
+    }
+
+    public static function getCurrentSeason(): string
+    {
+        $season = self::SEASON_UNKNOWN;
+
+        switch ($month = date('n')) {
+            case $month <= 3:
+                $season = self::SEASON_WINTER;
+                break;
+            case $month <= 6:
+                $season = self::SEASON_SPRING;
+                break;
+            case $month <= 9:
+                $season = self::SEASON_SUMMER;
+                break;
+            case $month <= 12:
+                $season = self::SEASON_FALL;
+                break;
+        }
+
+        return $season;
     }
 
     public function genres(): BelongsToMany
