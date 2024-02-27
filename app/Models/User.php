@@ -42,4 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function anime()
+    {
+        return $this->belongsToMany(Anime::class, 'anime_user')->withPivot('status')->withTimestamps();
+    }
 }

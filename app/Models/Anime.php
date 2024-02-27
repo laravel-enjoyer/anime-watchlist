@@ -126,6 +126,11 @@ class Anime extends Model
         return $this->hasMany(Synonym::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'anime_user')->withPivot('status')->withTimestamps();
+    }
+
     public function getTypeAttribute($value): ?string
     {
         return $this->enumColumns['type'][$value] ?? null;
