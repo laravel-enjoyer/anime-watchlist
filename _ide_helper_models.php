@@ -19,13 +19,13 @@ namespace App\Models{
  * @property int $id
  * @property int $mal_id
  * @property string $title
- * @property string $type
+ * @property string|null $type
  * @property int|null $episodes
  * @property string|null $description
  * @property float|null $score
  * @property int|null $rank
- * @property string $status
- * @property string $season
+ * @property string|null $status
+ * @property string|null $season
  * @property int|null $year
  * @property string $picture
  * @property string $thumbnail
@@ -37,6 +37,8 @@ namespace App\Models{
  * @property-read int|null $genres_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Synonym> $synonyms
  * @property-read int|null $synonyms_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Anime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Anime newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Anime query()
@@ -57,8 +59,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Anime whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Anime whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Anime whereYear($value)
+ * @mixin \Eloquent
  */
-	class Anime extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperAnime {}
 }
 
 namespace App\Models{
@@ -74,8 +78,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Genre query()
  * @method static \Illuminate\Database\Eloquent\Builder|Genre whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Genre whereName($value)
+ * @mixin \Eloquent
  */
-	class Genre extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperGenre {}
 }
 
 namespace App\Models{
@@ -96,8 +102,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Synonym whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Synonym whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Synonym whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class Synonym extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperSynonym {}
 }
 
 namespace App\Models{
@@ -112,6 +120,8 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Anime> $anime
+ * @property-read int|null $anime_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
@@ -128,7 +138,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class User extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperUser {}
 }
 

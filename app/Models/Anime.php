@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @mixin Builder
+ * @mixin IdeHelperAnime
  */
 class Anime extends Model
 {
@@ -26,6 +27,7 @@ class Anime extends Model
     public const STATUS_ONGOING = 'ONGOING';
     public const STATUS_UPCOMING = 'UPCOMING';
     public const STATUS_UNKNOWN = 'UNKNOWN';
+    public const STATUS_FINISHED_RECENTLY = 'FINISHED_RECENTLY';
     public const SEASON_SPRING = 'SPRING';
     public const SEASON_SUMMER = 'SUMMER';
     public const SEASON_FALL = 'FALL';
@@ -76,11 +78,22 @@ class Anime extends Model
             self::TYPE_TV,
             self::TYPE_MOVIE,
             self::TYPE_OVA,
-            self::TYPE_ONA,
             self::TYPE_SPECIAL,
+            self::TYPE_ONA,
             self::TYPE_MUSIC,
             self::TYPE_UNKNOWN
         ];
+    }
+
+    public static function getStatusDisplayName(string $status): string
+    {
+        return match ($status) {
+            self::STATUS_UPCOMING => 'Upcoming',
+            self::STATUS_FINISHED_RECENTLY => 'Finished recently',
+            self::STATUS_ONGOING => 'Ongoing',
+            self::STATUS_FINISHED => 'Finished',
+            default => 'Unknown',
+        };
     }
 
     public static function getSeasons(): array
@@ -131,18 +144,18 @@ class Anime extends Model
         return $this->belongsToMany(User::class, 'anime_user')->withPivot('status')->withTimestamps();
     }
 
-    public function getTypeAttribute($value): ?string
+    public function getTypeAttribute(string $value): ?string
     {
-        return $this->enumColumns['type'][$value] ?? null;
+        return in_array($value, $this->enumColumns['type'], true) ? $value : null;
     }
 
-    public function getStatusAttribute($value): ?string
+    public function getStatusAttribute(string $value): ?string
     {
-        return $this->enumColumns['status'][$value] ?? null;
+        return in_array($value, $this->enumColumns['status'], true) ? $value : null;
     }
 
-    public function getSeasonAttribute($value): ?string
+    public function getSeasonAttribute(string $value): ?string
     {
-        return $this->enumColumns['season'][$value] ?? null;
+        return in_array($value, $this->enumColumns['season'], true) ? $value : null;
     }
 }

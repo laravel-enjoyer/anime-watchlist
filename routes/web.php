@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\AnimeUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('animes'));
 });
 
 Route::get('/animes', [AnimeController::class, 'index'])->name('animes');
+Route::get('/anime/{id}', [AnimeController::class, 'show'])->name('anime.show');
+Route::get('/animes/data', [AnimeController::class, 'getRenderedData']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
