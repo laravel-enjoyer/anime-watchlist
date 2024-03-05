@@ -22,7 +22,6 @@ Route::get('/', function () {
 
 Route::get('/animes', [AnimeController::class, 'index'])->name('animes');
 Route::get('/anime/{id}', [AnimeController::class, 'show'])->name('anime.show');
-Route::get('/animes/data', [AnimeController::class, 'getRenderedData']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

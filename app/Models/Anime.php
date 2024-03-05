@@ -72,6 +72,54 @@ class Anime extends Model
         ],
     ];
 
+    public function scopeFilter($query, array $filters): void
+    {
+        if ($filters['search'] ?? false) {
+            $query->where(function ($query) use ($filters) {
+                $search = $filters['search'];
+
+                $query->where('title', 'like', "%$search%")
+                    ->orWhereHas('synonyms', function ($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    });
+            });
+        }
+
+        if ($filters['status'] ?? false) {
+            $query->where(function($query) use ($filters) {
+                foreach ($filters['status'] as $status) {
+                    if ($status !== Anime::STATUS_FINISHED_RECENTLY) {
+                        $query->orWhere('status', $status);
+                    } else {
+                        $dateFrom = now()->subMonths(4)->format('Y-m-d');
+                        $query->orWhere(function($query) use ($dateFrom) {
+                            $query->where('status', Anime::STATUS_FINISHED)
+                                ->where('aired_to', '>', $dateFrom);
+                        });
+                    }
+                }
+            });
+        }
+
+        if ($filters['type'] ?? false) {
+            $query->whereIn('type', $filters['type']);
+        }
+
+        if ($filters['year'] ?? false) {
+            $query->where('year', request('year'));
+        }
+
+        if ($filters['sorting'] ?? false) {
+            if ($filters['sorting'] == 'rating') {
+                $query->orderByRaw('`rank` is NULL ASC')
+                    ->orderBy('rank')
+                    ->orderByRaw('`score` is NULL ASC');
+            } elseif ($filters['sorting'] == 'name') {
+                $query->orderByRaw("REGEXP_REPLACE(LOWER(title), '[^a-zA-Z]', '') ASC");
+            }
+        }
+    }
+
     public static function getTypes(): array
     {
         return [

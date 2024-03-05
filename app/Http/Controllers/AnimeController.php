@@ -3,21 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
-use View;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 
 class AnimeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $animes = Anime::orderByRaw('`rank` is NULL ASC')
-            ->orderBy('rank')
-            ->orderByRaw('`score` is NULL ASC')
-            ->paginate(30)
-            ->withQueryString();
+        $queryParams = $request->query();
 
+//        dd($queryParams);
+
+        if ($this->isYearParameterIrrelevant($request)) {
+            unset($queryParams['year']);
+
+            return redirect()->route('animes', $queryParams);
+        }
+
+        if (!$request->has('sorting')) {
+            $queryParams['sorting'] = 'rating';
+
+            return redirect()->route('animes', $queryParams);
+        }
+
+        $animes = Anime::filter(request(['search', 'type', 'status', 'year', 'sorting']))->with('genres');
+
+//        dd($animes->toRawSql());
+
+        $animes = $animes->paginate(30)->withQueryString();
 
         $filters = $this->getFilterValues();
 
@@ -25,21 +40,6 @@ class AnimeController extends Controller
             'animes' => $animes,
             'filters' => $filters,
         ]);
-    }
-
-    public function getRenderedData(Request $request): string
-    {
-        $animes = Anime::orderByRaw('`rank` is NULL ASC')
-            ->orderBy('rank')
-            ->orderByRaw('`score` is NULL ASC')
-            ->paginate(30)
-            ->withQueryString();
-
-        $output = View::make("components.animes-grid")
-            ->with('animes', $animes)
-            ->render();
-
-        return $output;
     }
 
     public function show(int $id): View
@@ -70,5 +70,12 @@ class AnimeController extends Controller
         $sorting = ['rating', 'name'];
 
         return compact('types', 'statuses', 'years', 'sorting');
+    }
+
+    private function isYearParameterIrrelevant(Request $request): bool
+    {
+        return $request->has('status') &&
+            $request->filled('year') &&
+            in_array(Anime::STATUS_FINISHED_RECENTLY, $request->input('status'));
     }
 }

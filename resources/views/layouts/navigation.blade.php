@@ -13,12 +13,39 @@
                 <!-- Navigation Links -->
                 @auth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('animes').'?playlist=backlog'" :active="request()->routeIs(route('animes').'?playlist=backlog')">
+                        {{ __('Backlog') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('animes').'?playlist=to_watch'" :active="request()->routeIs(route('animes').'?playlist=to_watch')">
+                        {{ __('To watch') }}
                     </x-nav-link>
                 </div>
                 @endauth
             </div>
+
+            @if (request()->routeIs('animes'))
+            <form class="flex items-center max-w-sm mx-auto">
+                <label for="simple-search" class="sr-only">Search</label>
+                <div class="relative lg:w-64 ml-2">
+                    <input type="text"
+                           id="search_input"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                                  focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           name="search"
+                           value="{{ request('search') }}"
+                           placeholder="Search..."/>
+                </div>
+                <button type="submit" form="filter_form" class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700
+                hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </button>
+            </form>
+            @endif
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -79,8 +106,13 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         @auth
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
+                <x-responsive-nav-link :href="route('animes').'?playlist=backlog'" :active="request()->routeIs(route('animes').'?playlist=backlog')">
+                    {{ __('Backlog') }}
+                </x-responsive-nav-link>
+            </div>
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('animes').'?playlist=to_watch'" :active="request()->routeIs(route('animes').'?playlist=to_watch')">
+                    {{ __('To watch') }}
                 </x-responsive-nav-link>
             </div>
         @endauth
