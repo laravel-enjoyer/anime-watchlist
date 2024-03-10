@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnimeController;
-use App\Http\Controllers\AnimeUserController;
+use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,9 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::post('/anime/{animeId}/watched', [AnimeUserController::class, 'markAsWatched'])->name('anime.markAsWatched');
-    Route::get('/anime/watched', [AnimeUserController::class, 'watchedList'])->name('anime.watchedList');
-    Route::get('/anime/backlog', [AnimeUserController::class, 'backlogList'])->name('anime.backlogList');
+    Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlist.store');
 });
 
 require __DIR__.'/auth.php';

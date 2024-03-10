@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Anime::class, 'anime_user')->withPivot('status')->withTimestamps();
     }
+
+    public function isInPlaylist(int $animeId, string $status): bool
+    {
+        $query = $this->anime()->where('anime_id', $animeId)->wherePivot('status', $status);
+        return $query->exists();
+    }
 }

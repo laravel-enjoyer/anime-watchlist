@@ -34,6 +34,9 @@ class Anime extends Model
     public const SEASON_WINTER = 'WINTER';
     public const SEASON_UNKNOWN = 'UNKNOWN';
 
+    public const PLAYLIST_BACKLOG = 'backlog';
+    public const PLAYLIST_WATCHED = 'watched';
+
     protected $table = 'anime';
     protected $fillable = [
         'mal_id',
@@ -105,8 +108,25 @@ class Anime extends Model
             $query->whereIn('type', $filters['type']);
         }
 
+//        if ($filters['genre'] ?? false) {
+//            $genre = $filters['genre'];
+//
+//            $query->whereHas('genres', function ($query) use ($genre) {
+//                $query->where('genres.id', $genre);
+//            });
+//        }
+
         if ($filters['year'] ?? false) {
             $query->where('year', request('year'));
+        }
+
+        if (auth()->check() and $filters['playlist'] ?? false) {
+            $user = auth()->user();
+            $status = $filters['playlist'];
+
+            $query->whereHas('users', function ($query) use ($user, $status) {
+                $query->where('user_id', $user->id)->where('status', $status);
+            });
         }
 
         if ($filters['sorting'] ?? false) {

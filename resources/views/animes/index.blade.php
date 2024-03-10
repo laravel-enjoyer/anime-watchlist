@@ -8,7 +8,7 @@
                 {{ $animes->links() }}
             </div>
         @else
-            <p>No animes yet</p>
+            <p class="text-2xl text-white">List is currently empty</p>
         @endif
     </div>
 </x-app-layout>

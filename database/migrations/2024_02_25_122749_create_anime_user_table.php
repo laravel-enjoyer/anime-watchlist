@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('anime_id')->constrained('anime')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['to_watch', 'watched'])->default('to_watch');
+            $table->enum('status', ['backlog', 'watched'])->default('backlog');
             $table->timestamps();
         });
     }

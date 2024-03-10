@@ -17,7 +17,7 @@ class JikanModelConverter
 
         $data['title'] = $titleData['main'];
         $data['synonyms'] = $titleData['synonyms'];
-        $data['genres'] = self::getPreparedGenres($animeData['genres']);
+        $data['genres'] = self::getPreparedGenres($animeData);
         $data['type'] = self::getPreparedType($animeData['type']);
         $data['episodes'] = $animeData['episodes'];
         $data['description'] = $animeData['synopsis'];
@@ -34,9 +34,11 @@ class JikanModelConverter
         return $data;
     }
 
-    private static function getPreparedGenres(array $genresData): array
+    private static function getPreparedGenres(array $animeData): array
     {
-        return array_map(fn($x) => $x['name'], $genresData);
+        $genres = array_merge($animeData['genres'], $animeData['themes'], $animeData['demographics']);
+
+        return array_map(fn($x) => $x['name'], $genres);
     }
 
     private static function getPreparedDate(?string $date): ?string

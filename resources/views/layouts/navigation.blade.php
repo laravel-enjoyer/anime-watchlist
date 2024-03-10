@@ -13,13 +13,13 @@
                 <!-- Navigation Links -->
                 @auth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('animes').'?playlist=backlog'" :active="request()->routeIs(route('animes').'?playlist=backlog')">
+                    <x-nav-link :href="route('animes').'?playlist='.App\Models\Anime::PLAYLIST_BACKLOG" :active="request()->routeIs('animes') and request()->query('playlist') === App\Models\Anime::PLAYLIST_BACKLOG">
                         {{ __('Backlog') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('animes').'?playlist=to_watch'" :active="request()->routeIs(route('animes').'?playlist=to_watch')">
-                        {{ __('To watch') }}
+                    <x-nav-link :href="route('animes').'?playlist='.App\Models\Anime::PLAYLIST_WATCHED" :active="request()->routeIs('animes') and request()->query('playlist') === App\Models\Anime::PLAYLIST_WATCHED">
+                        {{ __('Watched') }}
                     </x-nav-link>
                 </div>
                 @endauth
@@ -106,13 +106,13 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         @auth
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('animes').'?playlist=backlog'" :active="request()->routeIs(route('animes').'?playlist=backlog')">
+                <x-responsive-nav-link :href="route('animes').'?playlist='.App\Models\Anime::PLAYLIST_BACKLOG" :active="request()->routeIs('animes') and request()->query('playlist') === App\Models\Anime::PLAYLIST_BACKLOG">
                     {{ __('Backlog') }}
                 </x-responsive-nav-link>
             </div>
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('animes').'?playlist=to_watch'" :active="request()->routeIs(route('animes').'?playlist=to_watch')">
-                    {{ __('To watch') }}
+                <x-responsive-nav-link :href="route('animes').'?playlist='.App\Models\Anime::PLAYLIST_WATCHED" :active="request()->routeIs('animes') and request()->query('playlist') === App\Models\Anime::PLAYLIST_WATCHED">
+                    {{ __('Watched') }}
                 </x-responsive-nav-link>
             </div>
         @endauth
