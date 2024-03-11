@@ -108,13 +108,13 @@ class Anime extends Model
             $query->whereIn('type', $filters['type']);
         }
 
-//        if ($filters['genre'] ?? false) {
-//            $genre = $filters['genre'];
-//
-//            $query->whereHas('genres', function ($query) use ($genre) {
-//                $query->where('genres.id', $genre);
-//            });
-//        }
+        if ($filters['genre'] ?? false) {
+            $genre = $filters['genre'];
+
+            $query->whereHas('genres', function ($query) use ($genre) {
+                $query->where('genres.id', $genre);
+            });
+        }
 
         if ($filters['year'] ?? false) {
             $query->where('year', request('year'));

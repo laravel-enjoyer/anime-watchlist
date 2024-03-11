@@ -42,7 +42,7 @@
                 <span>{{ $anime->aired_to }}</span>
             </div>
         @endif
-        @if ($anime->genres)
+        @if (!$anime->genres->isEmpty())
         <div class="flex space-x-2 w-full text-gray-300">
             <h3 class="font-semibold text-gray-900 dark:text-white">Genres: </h3>
             <div class="flex flex-wrap">

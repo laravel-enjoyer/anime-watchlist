@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: true }" class="fixed w-64 ml-2 overflow-y-scroll sm:overflow-y-hidden" style="top:14%; bottom: 0">
+<div x-data="{ sidebarOpen: true }" class="absolute top-0 w-64 ml-2 overflow-y-scroll sm:overflow-y-hidden">
     <!-- Button to toggle sidebar -->
     <button @click="sidebarOpen = !sidebarOpen" class="bg-gray-700 text-white px-4 py-2 rounded-lg mb-1">Filters
     </button>
@@ -81,24 +81,24 @@
                 </div>
 
                 <!-- Genre filter -->
-{{--                <div class="flex items-center justify-center mb-2">--}}
-{{--                    <div class="z-10 w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">--}}
-{{--                        <h6 class="mb-3 text-md font-bold dark:text-white">--}}
-{{--                            Genre--}}
-{{--                        </h6>--}}
+                <div class="flex items-center justify-center mb-2">
+                    <div class="z-10 w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                        <h6 class="mb-3 text-md font-bold dark:text-white">
+                            Genre
+                        </h6>
 
-{{--                        <select id="filter-genre-select" name="genre"--}}
-{{--                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">--}}
-{{--                            <option value="">All</option>--}}
-{{--                            @foreach ($filters['genres'] as $option)--}}
-{{--                                <option value="{{ $option->id }}"--}}
-{{--                                    {{ request()->filled('genre') && $option == request('genre') ? 'selected' : ''}}>--}}
-{{--                                    {{ $option->name }}--}}
-{{--                                </option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                        <select id="filter-genre-select" name="genre"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="">All</option>
+                            @foreach ($filters['genres'] as $option)
+                                <option value="{{ $option->id }}"
+                                    {{ request()->filled('genre') && $option->id == request('genre') ? 'selected' : ''}}>
+                                    {{ $option->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <!-- Year filter -->
                 <div class="flex items-center justify-center mb-2">

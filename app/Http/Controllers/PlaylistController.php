@@ -39,7 +39,6 @@ class PlaylistController extends Controller
 
         if ($anime) {
             $msg = "Anime removed from '$displayStatus'";
-            //TODO: Detach for given status (currently detaching all)
             $user->anime()->wherePivot('status', $status)->detach($animeId);
         } else {
             $msg = "Anime added to '$displayStatus'";
@@ -49,8 +48,6 @@ class PlaylistController extends Controller
                 $user->anime()->wherePivot('status', Anime::PLAYLIST_BACKLOG)->detach($animeId);
             }
         }
-
-        session()->flash('text', $msg);
 
         return response()->json([
             'status' => 'success',

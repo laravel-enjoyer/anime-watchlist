@@ -20,7 +20,7 @@ class JikanModelConverter
         $data['genres'] = self::getPreparedGenres($animeData);
         $data['type'] = self::getPreparedType($animeData['type']);
         $data['episodes'] = $animeData['episodes'];
-        $data['description'] = $animeData['synopsis'];
+        $data['description'] = self::getPreparedDescription($animeData['synopsis']);
         $data['score'] = $animeData['score'];
         $data['rank'] = $animeData['rank'];
         $data['status'] = self::getPreparedStatus($animeData['status']);
@@ -32,6 +32,15 @@ class JikanModelConverter
         $data['aired_to'] = self::getPreparedDate($animeData['aired']['to']);
 
         return $data;
+    }
+
+    private static function getPreparedDescription(?string $description): ?string
+    {
+        if (!$description) {
+            return null;
+        }
+
+        return str_replace('[Written by MAL Rewrite]', '', $description);
     }
 
     private static function getPreparedGenres(array $animeData): array
