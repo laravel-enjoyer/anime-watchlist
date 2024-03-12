@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnimeController;
+use App\Http\Controllers\AnimeSyncController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ Route::get('/', function () {
 
 Route::get('/animes', [AnimeController::class, 'index'])->name('animes');
 Route::get('/anime/{id}', [AnimeController::class, 'show'])->name('anime.show');
+
+Route::get('/animes/sync', [AnimeSyncController::class, 'sync'])->name('anime.sync');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -1,8 +1,6 @@
 <?php
 namespace App\Services;
 
-use App\Models\Anime;
-use Carbon\Carbon;
 use Generator;
 use GuzzleHttp\Client;
 
@@ -98,8 +96,9 @@ class JikanService implements IAnimeService
             }
 
             // rate limiting protection
-            sleep(1);
-            usleep(200000);
+//            sleep(1);
+//            usleep(200000);
+           AnimeUpdater::delay(1200);
         }
     }
 }

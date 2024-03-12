@@ -45,8 +45,6 @@ class AnimeController extends Controller
             }]);
         }
 
-//        dd($animes->toRawSql());
-
         $animes = $animes->paginate(30)->withQueryString();
 
         $filters = $this->getFilterValues();

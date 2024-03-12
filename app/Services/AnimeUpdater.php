@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Anime;
 use App\Models\Genre;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AnimeUpdater
 {
@@ -15,6 +16,8 @@ class AnimeUpdater
 
     public function updateAnime(): void
     {
+        Log::info('Beginning anime sync');
+
         $currentSeason = $this->animeService->getCurrentSeasonAnime();
 
         $this->updateCurrentSeason($currentSeason);
@@ -51,7 +54,8 @@ class AnimeUpdater
             $this->updateRecord($animeData);
 
             // prevent rate limiting
-            sleep(1);
+//            sleep(1);
+            self::delay(1000);
         }
     }
 
@@ -82,6 +86,8 @@ class AnimeUpdater
 
         $anime = Anime::updateOrCreate(['mal_id' => $convertedData['mal_id']], $convertedData);
 
+        Log::info("Updated anime: id: $anime->id, mal_id: $anime->mal_id, title:$anime->title");
+
         if ($anime->wasRecentlyCreated) {
             $anime->synonyms()->createMany(array_map(
                 fn($value) => ['name' => $value],
@@ -93,6 +99,14 @@ class AnimeUpdater
             });
 
             $anime->genres()->sync($genres->pluck('id'));
+        }
+    }
+
+    public static function delay(float $milliseconds) {
+        $microseconds = $milliseconds * 1000;
+        $start = microtime(true);
+        while (microtime(true) - $start < $milliseconds / 1000) {
+            // Do nothing, just wait
         }
     }
 

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Anime;
 use App\Models\Genre;
+use App\Services\AnimeUpdater;
 use App\Services\IAnimeService;
 use Illuminate\Database\Seeder;
 
@@ -68,7 +69,8 @@ class MyAnimeListSeeder extends Seeder
                 $this->command->info("Finished processing season $year - $season");
 
                 // prevent rate limiting
-                sleep(1);
+//                sleep(1);
+                AnimeUpdater::delay(1000);
             }
         }
     }
